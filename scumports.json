@@ -4,31 +4,20 @@
         "Port": 7777,
         "Ref": "GamePort",
         "Name": "Game Port",
-        "ChildPorts": [
-            {
-                "Protocol": "UDP",
-                "Port": 7778,
-                "Ref": "RawUDPPort",
-                "Offset": 1,
-                "Name": "Raw UDP Port",
-                "Description": "Raw UDP socket port (always Game Port +1)"
-            },
-            {
-                "Protocol": "TCP",
-                "Port": 7779,
-                "Ref": "QueryPort",
-                "Offset": 2,
-                "Name": "Query Port",
-                "Description": "Steam server browser query port (always Game Port +2)"
-            }
-        ],
         "Description": "Main game client port"
     },
     {
+        "Protocol": "UDP",
+        "Port": 7778,
+        "Ref": "RawUDPPort",
+        "Name": "Raw UDP Port",
+        "Description": "Raw UDP socket port (always Game Port +1)"
+    },
+    {
         "Protocol": "TCP",
-        "Port": 7777,
-        "Ref": "RCONPort",
-        "Name": "RCON Port",
-        "Description": "Remote console access (optional)"
+        "Port": 7779,
+        "Ref": "QueryPort",
+        "Name": "Query Port",
+        "Description": "Steam server browser query port (always Game Port +2)"
     }
 ]
