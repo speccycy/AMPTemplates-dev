@@ -59,6 +59,9 @@
 #>
 
 param(
+    [Parameter(Mandatory=$false)]
+    [string]$ServerExecutablePath = "",
+    
     [Parameter(ValueFromRemainingArguments = $true)]
     $ScriptArgs
 )
@@ -745,7 +748,14 @@ function Send-CtrlC {
     and terminates all processes in the job.
 #>
 
-$ExePath = Join-Path $PSScriptRoot "SCUMServer.exe"
+$ExePath = if ($ServerExecutablePath) {
+    # Use provided path (for external wrapper location)
+    $ServerExecutablePath
+} else {
+    # Default: wrapper and server in same directory
+    Join-Path $PSScriptRoot "SCUMServer.exe"
+}
+
 $process = $null
 
 # Validate executable exists
@@ -787,11 +797,21 @@ try {
     $global:ServerProcess = $process
     
     # Calculate and store SCUM log path for trap handler
-    # PSScriptRoot = .../SCUM/Binaries/Win64
-    # Split-Path -Parent (1st) = .../SCUM/Binaries
-    # Split-Path -Parent (2nd) = .../SCUM
-    # Join "Saved\Logs\SCUM.log" = .../SCUM/Saved/Logs/SCUM.log
-    $serverRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+    # If ServerExecutablePath provided: use its directory structure
+    # Otherwise: use PSScriptRoot (wrapper location)
+    if ($ServerExecutablePath) {
+        # ServerExecutablePath = .../SCUM/Binaries/Win64/SCUMServer.exe
+        # Split-Path -Parent = .../SCUM/Binaries/Win64
+        # Split-Path -Parent (1st) = .../SCUM/Binaries
+        # Split-Path -Parent (2nd) = .../SCUM
+        $serverBinDir = Split-Path $ServerExecutablePath -Parent
+        $serverRoot = Split-Path (Split-Path $serverBinDir -Parent) -Parent
+    } else {
+        # PSScriptRoot = .../SCUM/Binaries/Win64
+        # Split-Path -Parent (1st) = .../SCUM/Binaries
+        # Split-Path -Parent (2nd) = .../SCUM
+        $serverRoot = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
+    }
     $global:ServerLogPath = Join-Path $serverRoot "Saved\Logs\SCUM.log"
 
     Write-WrapperLog "Server started successfully"
