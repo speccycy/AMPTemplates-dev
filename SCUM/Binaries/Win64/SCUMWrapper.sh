@@ -206,8 +206,14 @@ log_message "INFO" "Created PID file: ${PID_FILE}"
 # SERVER STARTUP
 # ============================================================================
 
-# Calculate paths
+# Calculate paths based on wrapper location
+# Wrapper is at: /path/to/instance/SCUM_Scripts/SCUMWrapper.sh
+# Server is at:  /path/to/instance/scum/3792580/SCUM/Binaries/Win64/SCUMServer.exe
+
+# Get instance root directory (parent of SCUM_Scripts)
 INSTANCE_ROOT="$(dirname "${SCRIPT_DIR}")"
+
+# Build server executable path
 SERVER_ROOT="${INSTANCE_ROOT}/scum/3792580/SCUM"
 EXE_PATH="${SERVER_ROOT}/Binaries/Win64/SCUMServer.exe"
 SERVER_LOG_PATH="${SERVER_ROOT}/Saved/Logs/SCUM.log"
