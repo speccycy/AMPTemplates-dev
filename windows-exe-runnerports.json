@@ -1,0 +1,9 @@
+[
+  {
+    "Protocol": "TCP",
+    "Port": 0,
+    "Ref": "CustomPort",
+    "Name": "Custom Port",
+    "Description": "Optional custom port for application features (set to 0 to disable)"
+  }
+]
