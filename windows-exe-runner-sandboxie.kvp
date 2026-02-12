@@ -55,7 +55,7 @@ App.RootDir=./windows-exe-runner/
 App.BaseDirectory={{WorkingDirectory}}
 App.SteamWorkshopDownloadLocation=
 # Sandboxie-Plus Start.exe wrapper
-App.ExecutableWin=pwsh.exe
+App.ExecutableWin=C:\Program Files\PowerShell\7\pwsh.exe
 App.ExecutableLinux=
 # Working directory for the process - configured by user (default: ./)
 App.WorkingDir={{WorkingDirectory}}
