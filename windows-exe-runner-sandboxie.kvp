@@ -60,9 +60,9 @@ App.ExecutableLinux=
 # Working directory for the process - configured by user (default: ./)
 App.WorkingDir={{WorkingDirectory}}
 App.LinuxCommandLineArgs=
-App.WindowsCommandLineArgs=-ExecutionPolicy Bypass -File "..\\..\\Sandboxie_Scripts\\SandboxieWrapper.ps1"
-# Command line arguments - passed to wrapper as environment variables
-App.CommandLineArgs=
+App.WindowsCommandLineArgs=
+# Command line arguments - PowerShell wrapper script
+App.CommandLineArgs=-ExecutionPolicy Bypass -File "..\\..\\Sandboxie_Scripts\\SandboxieWrapper.ps1"
 App.UseLinuxIOREDIR=False
 App.AppSettings={}
 App.EnvironmentVariables={"SANDBOX_NAME":"{{SandboxName}}","SANDBOXIE_PATH":"{{SandboxiePath}}","SECURITY_LEVEL":"{{SecurityLevel}}","AUTO_DELETE":"{{AutoDelete}}","BLOCK_NETWORK":"{{BlockNetwork}}","ALLOWED_PATHS":"{{AllowedPaths}}","ENABLE_PROCESS_LASSO":"{{EnableProcessLasso}}","PROCESS_LASSO_PATH":"{{ProcessLassoPath}}","MAX_CPU_PERCENT":"{{MaxCpuPercent}}","MAX_MEMORY_MB":"{{MaxMemoryMB}}","CPU_AFFINITY":"{{CpuAffinity}}","PROCESS_PRIORITY":"{{ProcessPriority}}","EXECUTABLE_PATH":"{{ExecutablePath}}","COMMAND_LINE_ARGS":"{{CommandLineArgs}}"}
