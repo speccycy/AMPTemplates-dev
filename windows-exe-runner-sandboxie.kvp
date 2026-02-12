@@ -1,0 +1,163 @@
+# ============================================================================
+# Windows EXE Runner with Sandboxie-Plus - AMP Template Configuration
+# ============================================================================
+# This template allows you to manage any Windows executable (.exe) through AMP
+# with automatic Sandboxie-Plus isolation for enhanced security.
+#
+# Key Features:
+# - Automatic sandbox creation and configuration
+# - Simple Start/Stop/Restart controls
+# - Real-time console output monitoring
+# - Configurable security levels (Low/Medium/High)
+# - Protection against malicious executables
+# ============================================================================
+
+# ----------------------------------------------------------------------------
+# Template Identity and Metadata
+# ----------------------------------------------------------------------------
+Meta.DisplayName=Windows EXE Runner (Sandboxie)
+Meta.Description=A secure AMP template for managing Windows executable (.exe) applications with automatic Sandboxie-Plus isolation. Protects your host system from untrusted or malicious executables by running them in an isolated sandbox environment.
+Meta.OS=Windows
+Meta.AarchSupport=Unknown
+Meta.Arch=All
+Meta.Author=speccycy
+Meta.URL=https://github.com/CubeCoders/AMPTemplates
+Meta.DisplayImageSource=
+Meta.EndpointURIFormat=
+Meta.ConfigManifest=windows-exe-runner-sandboxieconfig.json
+Meta.MetaConfigManifest=windows-exe-runnermetaconfig.json
+Meta.ConfigRoot=windows-exe-runner-sandboxie.kvp
+Meta.MinAMPVersion=2.6.0.0
+Meta.SpecificDockerImage=
+Meta.DockerRequired=False
+Meta.DockerBaseReadOnly=False
+Meta.ContainerPolicy=NotSupported
+Meta.ContainerPolicyReason=Windows-only template with Sandboxie-Plus integration
+Meta.ExtraSetupStepsURI=
+Meta.Prerequisites=["Sandboxie-Plus must be installed: https://sandboxie-plus.com/"]
+Meta.ExtraContainerPackages=[]
+Meta.ConfigReleaseState=NotSpecified
+Meta.NoCommercialUsage=False
+Meta.ConfigVersion=1
+Meta.ReleaseNotes=Initial release with automatic Sandboxie-Plus integration
+Meta.BreakingReleaseNotes=
+# Unique identifier for this template - DO NOT change or reuse
+Meta.AppConfigId=a7f3e8d2-9c4b-4e1a-8f6d-2b5c9a1e7f3d
+Meta.ImportableExtensions=[]
+
+# ----------------------------------------------------------------------------
+# Application Execution Configuration
+# ----------------------------------------------------------------------------
+# These settings control how AMP launches and manages your executable
+App.DisplayName=Windows EXE Runner (Sandboxie)
+App.RootDir=./windows-exe-runner/
+# Working directory - configured by user (default: ./)
+App.BaseDirectory={{WorkingDirectory}}
+App.SteamWorkshopDownloadLocation=
+# Sandboxie-Plus Start.exe wrapper
+App.ExecutableWin={{SandboxiePath}}\Start.exe
+App.ExecutableLinux=
+# Working directory for the process - configured by user (default: ./)
+App.WorkingDir={{WorkingDirectory}}
+App.LinuxCommandLineArgs=
+App.WindowsCommandLineArgs=
+# Command line arguments - Sandboxie wrapper + user executable + user args
+App.CommandLineArgs=/box:{{SandboxName}} /silent /wait {{ExecutablePath}} {{CommandLineArgs}}
+App.UseLinuxIOREDIR=False
+App.AppSettings={}
+App.EnvironmentVariables={}
+App.CommandLineParameterFormat=-{0}={1}
+App.CommandLineParameterDelimiter= 
+# Process termination method - OS_CLOSE sends WM_CLOSE signal for graceful shutdown
+App.ExitMethod=OS_CLOSE
+# Maximum time to wait for graceful shutdown before force-killing (seconds)
+App.ExitTimeout=30
+App.ExitString=
+App.ExitFile=
+# Console configuration - read-only (no stdin support)
+App.HasWriteableConsole=False
+App.HasReadableConsole=True
+App.UDPLogger=False
+App.SupportsLiveSettingsChanges=False
+App.LiveSettingChangeCommandFormat=
+App.ForceIPBinding=False
+App.SupportsIPv6=False
+App.ApplicationIPBinding=0.0.0.0
+# Port configuration - see windows-exe-runnerports.json
+App.Ports=@IncludeJson[windows-exe-runnerports.json]
+App.AdminPortRef=0
+App.PrimaryApplicationPortRef=0
+App.UniversalSleepApplicationUDPPortRef=0
+App.UniversalSleepSteamQueryPortRef=0
+# Max users - not applicable for general executables
+App.MaxUsers=0
+App.UseRandomAdminPassword=False
+App.PersistRandomPassword=False
+App.RemoteAdminPassword=
+App.AdminMethod=None
+App.IgnoreSTDOUTAfterRCON=False
+App.AdminLoginTransform=None
+App.LoginTransformPrefix=
+App.RCONConnectDelaySeconds=0
+App.RCONConnectRetrySeconds=0
+App.RCONHeartbeatMinutes=0
+App.RCONHeartbeatCommand=
+App.TelnetLoginFormat=
+# Update sources - empty (no downloads or compilation)
+App.UpdateSources=@IncludeJson[windows-exe-runnerupdates.json]
+# Pre-start stage: Create and configure Sandboxie sandbox
+# Note: Script must be in the same directory as this .kvp file (template repository)
+App.PreStartStages=[
+    {
+        "Description": "Create Sandboxie sandbox if not exists",
+        "ShellScript": "powershell -ExecutionPolicy Bypass -File \"CreateSandboxie.ps1\" -SandboxName \"{{SandboxName}}\" -SandboxiePath \"{{SandboxiePath}}\" -SecurityLevel \"{{SecurityLevel}}\" -AutoDelete ${{AutoDelete}} -BlockNetwork ${{BlockNetwork}}",
+        "ExitOnFailure": true
+    }
+]
+App.UserActions=[]
+# No automatic updates - user provides their own executable
+App.ForceUpdate=False
+App.ForceUpdateReason=
+App.Compatibility=None
+App.SteamUpdateAnonymousLogin=False
+App.SteamForceLoginPrompt=False
+App.RapidStartup=False
+App.SmartExcludeExemptions=[]
+App.SmartExcludeSupported=False
+App.DumpFullChildProcessTree=False
+App.MonitorChildProcessName=
+App.MonitorDirectChildOnly=False
+App.SupportsUniversalSleep=False
+App.WakeupMode=Any
+# Ready state detection - RegexMatch uses Console.AppReadyRegex pattern
+App.ApplicationReadyMode=RegexMatch
+App.TemplateMatchRegex={{(!?(?<Platform>Linux|Windows|All):)?(?<Value>\$?[\w]+)}}
+
+# ----------------------------------------------------------------------------
+# Console Output Configuration
+# ----------------------------------------------------------------------------
+# Filters ANSI escape codes for clean console display
+Console.FilterMatchRegex=\e\[(\d+;)*(\d+)?[ABCDHJKfmsu]|\e\[?[?\>\=\da-z]+
+Console.FilterMatchReplacement=
+Console.ThrowawayMessageRegex=
+# Ready detection pattern - configured by user (leave empty for immediate ready)
+Console.AppReadyRegex={{ReadyPattern}}
+Console.UserJoinRegex=^$
+Console.UserLeaveRegex=^$
+Console.UserChatRegex=^$
+Console.UpdateAvailableRegex=^$
+Console.MetricsRegex=
+Console.SuppressLogAtStart=False
+Console.ActivateLogRegex=
+Console.UserActions={}
+
+# ----------------------------------------------------------------------------
+# Resource Limits and Auto-Retry Configuration
+# ----------------------------------------------------------------------------
+Limits.SleepMode=False
+Limits.SleepOnStart=False
+Limits.SleepDelayMinutes=5
+Limits.DozeDelay=2
+# Automatic restart attempts on crash
+Limits.AutoRetryCount=2
+Limits.SleepStartThresholdSeconds=25
