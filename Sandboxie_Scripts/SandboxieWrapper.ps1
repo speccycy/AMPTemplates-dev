@@ -1,24 +1,22 @@
 # ============================================================================
 # SandboxieWrapper.ps1 - Windows EXE Runner with Sandboxie & Process Lasso
 # ============================================================================
-# This wrapper manages Windows executables within Sandboxie-Plus isolation
-# and optionally applies Process Lasso resource limits.
-#
-# Features:
-# - Automatic Sandboxie sandbox creation and configuration
-# - Optional Process Lasso CPU/Memory limits
-# - Path whitelisting for cross-instance file access
-# - Status reporting to AMP (STARTING → RUNNING → STOPPED)
-# - Graceful shutdown handling
-# - Comprehensive logging
-#
-# Usage: pwsh -ExecutionPolicy Bypass -File SandboxieWrapper.ps1 [args]
-# ============================================================================
 
 param(
     [Parameter(ValueFromRemainingArguments = $true)]
     $ScriptArgs
 )
+
+# ============================================================================
+# IMMEDIATE OUTPUT TEST
+# ============================================================================
+Write-Host "[WRAPPER-INFO] =========================================="
+Write-Host "[WRAPPER-INFO] Sandboxie Wrapper Starting"
+Write-Host "[WRAPPER-INFO] =========================================="
+Write-Host "[WRAPPER-INFO] PowerShell Version: $($PSVersionTable.PSVersion)"
+Write-Host "[WRAPPER-INFO] Script Path: $PSCommandPath"
+Write-Host "[WRAPPER-INFO] Working Directory: $PWD"
+Write-Host "[WRAPPER-INFO] =========================================="
 
 # ============================================================================
 # CONFIGURATION
