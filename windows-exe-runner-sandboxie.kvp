@@ -60,7 +60,7 @@ App.ExecutableLinux=
 # Working directory for the process - configured by user (default: ./)
 App.WorkingDir={{WorkingDirectory}}
 App.LinuxCommandLineArgs=
-App.WindowsCommandLineArgs=-ExecutionPolicy Bypass -File "../../Sandboxie_Scripts/SandboxieWrapper.ps1"
+App.WindowsCommandLineArgs=-ExecutionPolicy Bypass -File "..\..\Sandboxie_Scripts\SandboxieWrapper.ps1"
 App.CommandLineArgs=
 App.UseLinuxIOREDIR=False
 App.AppSettings={}
