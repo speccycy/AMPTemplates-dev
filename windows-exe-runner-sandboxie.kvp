@@ -111,12 +111,12 @@ App.UpdateSources=@IncludeJson[windows-exe-runnerupdates.json]
 App.PreStartStages=[
     {
         "Description": "Create Sandboxie sandbox if not exists",
-        "ShellScript": "pwsh -ExecutionPolicy Bypass -File \".\\Sandboxie_Scripts\\CreateSandboxie.ps1\" -SandboxName \"{{SandboxName}}\" -SandboxiePath \"{{SandboxiePath}}\" -SecurityLevel \"{{SecurityLevel}}\" -AutoDelete ${{AutoDelete}} -BlockNetwork ${{BlockNetwork}} -AllowedPaths \"{{AllowedPaths}}\"",
+        "ShellScript": "pwsh -ExecutionPolicy Bypass -File \"..\\..\\Sandboxie_Scripts\\CreateSandboxie.ps1\" -SandboxName \"{{SandboxName}}\" -SandboxiePath \"{{SandboxiePath}}\" -SecurityLevel \"{{SecurityLevel}}\" -AutoDelete ${{AutoDelete}} -BlockNetwork ${{BlockNetwork}} -AllowedPaths \"{{AllowedPaths}}\"",
         "ExitOnFailure": true
     },
     {
         "Description": "Configure Process Lasso resource limits",
-        "ShellScript": "pwsh -ExecutionPolicy Bypass -File \".\\Sandboxie_Scripts\\ConfigureProcessLasso.ps1\" -Enabled ${{EnableProcessLasso}} -ProcessLassoPath \"{{ProcessLassoPath}}\" -ProcessName \"{{ExecutablePath}}\" -MaxCpuPercent {{MaxCpuPercent}} -MaxMemoryMB {{MaxMemoryMB}} -CpuAffinity \"{{CpuAffinity}}\" -ProcessPriority \"{{ProcessPriority}}\"",
+        "ShellScript": "pwsh -ExecutionPolicy Bypass -File \"..\\..\\Sandboxie_Scripts\\ConfigureProcessLasso.ps1\" -Enabled ${{EnableProcessLasso}} -ProcessLassoPath \"{{ProcessLassoPath}}\" -ProcessName \"{{ExecutablePath}}\" -MaxCpuPercent {{MaxCpuPercent}} -MaxMemoryMB {{MaxMemoryMB}} -CpuAffinity \"{{CpuAffinity}}\" -ProcessPriority \"{{ProcessPriority}}\"",
         "ExitOnFailure": false
     }
 ]
