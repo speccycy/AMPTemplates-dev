@@ -22,7 +22,10 @@ param(
     [bool]$AutoDelete = $false,
     
     [Parameter(Mandatory=$false)]
-    [bool]$BlockNetwork = $false
+    [bool]$BlockNetwork = $false,
+    
+    [Parameter(Mandatory=$false)]
+    [string]$AllowedPaths = ""
 )
 
 # ============================================================================
@@ -189,6 +192,52 @@ function Reload-SandboxieConfig {
     }
 }
 
+function Set-AllowedPaths {
+    param([string]$BoxName, [string]$Paths)
+    
+    if ([string]::IsNullOrWhiteSpace($Paths)) {
+        Write-Log "No allowed paths specified - using default restrictions" "INFO"
+        return
+    }
+    
+    $sbieIniExe = Join-Path $SandboxiePath "SbieIni.exe"
+    
+    # Split paths by comma and trim whitespace
+    $pathList = $Paths -split ',' | ForEach-Object { $_.Trim() } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+    
+    if ($pathList.Count -eq 0) {
+        Write-Log "No valid paths found in whitelist" "WARNING"
+        return
+    }
+    
+    Write-Log "========================================" "INFO"
+    Write-Log "Configuring Path Whitelist (Access Control)" "INFO"
+    Write-Log "========================================" "INFO"
+    
+    foreach ($path in $pathList) {
+        # Validate path format
+        if ($path -notmatch '^[A-Za-z]:\\') {
+            Write-Log "  ⚠ Skipping invalid path: $path (must be absolute path)" "WARNING"
+            continue
+        }
+        
+        # Add OpenFilePath to allow access
+        $result = & $sbieIniExe append $BoxName "OpenFilePath" $path 2>&1
+        
+        if ($LASTEXITCODE -eq 0) {
+            Write-Log "  ✓ Whitelisted: $path" "SUCCESS"
+        } else {
+            Write-Log "  ✗ Failed to whitelist: $path" "ERROR"
+            Write-Log "    Error: $result" "ERROR"
+        }
+    }
+    
+    Write-Log "========================================" "INFO"
+    Write-Log "Path whitelist configuration completed" "SUCCESS"
+    Write-Log "Total paths whitelisted: $($pathList.Count)" "INFO"
+    Write-Log "========================================" "INFO"
+}
+
 # ============================================================================
 # Main Script
 # ============================================================================
@@ -200,6 +249,11 @@ Write-Log "Sandbox Name: $SandboxName" "INFO"
 Write-Log "Security Level: $SecurityLevel" "INFO"
 Write-Log "Auto-Delete: $AutoDelete" "INFO"
 Write-Log "Block Network: $BlockNetwork" "INFO"
+if (-not [string]::IsNullOrWhiteSpace($AllowedPaths)) {
+    Write-Log "Allowed Paths: $AllowedPaths" "INFO"
+} else {
+    Write-Log "Allowed Paths: None (default restrictions)" "INFO"
+}
 Write-Log "========================================" "INFO"
 
 # Step 1: Verify Sandboxie-Plus is installed
@@ -230,10 +284,13 @@ Set-SandboxDescription -BoxName $SandboxName
 # Step 5: Configure security settings
 Set-SandboxSecurity -BoxName $SandboxName -Level $SecurityLevel
 
-# Step 6: Reload Sandboxie configuration
+# Step 6: Configure allowed paths (whitelist)
+Set-AllowedPaths -BoxName $SandboxName -Paths $AllowedPaths
+
+# Step 7: Reload Sandboxie configuration
 Reload-SandboxieConfig | Out-Null
 
-# Step 7: Verify sandbox was created
+# Step 8: Verify sandbox was created
 Start-Sleep -Seconds 1
 if (Test-SandboxExists -BoxName $SandboxName) {
     Write-Log "========================================" "SUCCESS"
