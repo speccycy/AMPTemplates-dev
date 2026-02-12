@@ -42,20 +42,6 @@
     "SkipIfEmpty": false
   },
   {
-    "DisplayName": "Ready Detection Pattern",
-    "Category": "Windows EXE Runner:application",
-    "Subcategory": "Advanced:cog:2",
-    "Description": "Regular expression pattern to detect when the application is ready and fully started. AMP will monitor console output for this pattern. Leave empty to mark the instance as ready immediately after launch. Use pipe (|) to match multiple patterns.",
-    "Keywords": "ready,pattern,regex,detection,started,status,monitoring,console",
-    "FieldName": "ReadyPattern",
-    "InputType": "text",
-    "ParamFieldName": "ReadyPattern",
-    "DefaultValue": "",
-    "Placeholder": "Application ready|Started successfully|Listening on port",
-    "Required": false,
-    "SkipIfEmpty": false
-  },
-  {
     "DisplayName": "Sandbox Name",
     "Category": "Sandboxie Security:shield",
     "Subcategory": "Sandbox Configuration:lock:1",
