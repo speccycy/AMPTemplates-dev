@@ -111,7 +111,7 @@ App.UpdateSources=@IncludeJson[windows-exe-runnerupdates.json]
 App.PreStartStages=[
     {
         "Description": "Create Sandboxie sandbox if not exists",
-        "ShellScript": "powershell -ExecutionPolicy Bypass -File \"..\\..\\Sandboxie_Scripts\\CreateSandboxie.ps1\" -SandboxName \"{{SandboxName}}\" -SandboxiePath \"{{SandboxiePath}}\" -SecurityLevel \"{{SecurityLevel}}\" -AutoDelete ${{AutoDelete}} -BlockNetwork ${{BlockNetwork}}",
+        "ShellScript": "powershell -ExecutionPolicy Bypass -File \"..\\Sandboxie_Scripts\\CreateSandboxie.ps1\" -SandboxName \"{{SandboxName}}\" -SandboxiePath \"{{SandboxiePath}}\" -SecurityLevel \"{{SecurityLevel}}\" -AutoDelete ${{AutoDelete}} -BlockNetwork ${{BlockNetwork}}",
         "ExitOnFailure": true
     }
 ]
