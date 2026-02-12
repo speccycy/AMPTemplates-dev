@@ -2,21 +2,27 @@
 # SandboxieWrapper.ps1 - Windows EXE Runner with Sandboxie & Process Lasso
 # ============================================================================
 
+# Force immediate console output (disable buffering)
+$OutputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+
 param(
     [Parameter(ValueFromRemainingArguments = $true)]
     $ScriptArgs
 )
 
 # ============================================================================
-# IMMEDIATE OUTPUT TEST
+# IMMEDIATE OUTPUT TEST - MUST APPEAR FIRST
 # ============================================================================
-Write-Host "[WRAPPER-INFO] =========================================="
-Write-Host "[WRAPPER-INFO] Sandboxie Wrapper Starting"
-Write-Host "[WRAPPER-INFO] =========================================="
-Write-Host "[WRAPPER-INFO] PowerShell Version: $($PSVersionTable.PSVersion)"
-Write-Host "[WRAPPER-INFO] Script Path: $PSCommandPath"
-Write-Host "[WRAPPER-INFO] Working Directory: $PWD"
-Write-Host "[WRAPPER-INFO] =========================================="
+# Force output immediately to console
+[Console]::WriteLine("[WRAPPER-INFO] ==========================================")
+[Console]::WriteLine("[WRAPPER-INFO] Sandboxie Wrapper Starting")
+[Console]::WriteLine("[WRAPPER-INFO] ==========================================")
+[Console]::WriteLine("[WRAPPER-INFO] PowerShell Version: $($PSVersionTable.PSVersion)")
+[Console]::WriteLine("[WRAPPER-INFO] Script Path: $PSCommandPath")
+[Console]::WriteLine("[WRAPPER-INFO] Working Directory: $PWD")
+[Console]::WriteLine("[WRAPPER-INFO] Script Exists: $(Test-Path $PSCommandPath)")
+[Console]::WriteLine("[WRAPPER-INFO] ==========================================")
 
 # ============================================================================
 # CONFIGURATION
