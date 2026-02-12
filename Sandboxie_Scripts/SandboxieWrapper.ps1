@@ -2,14 +2,15 @@
 # SandboxieWrapper.ps1 - Windows EXE Runner with Sandboxie & Process Lasso
 # ============================================================================
 
-# Force immediate console output (disable buffering)
-$OutputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
-
+# param() MUST be first executable statement
 param(
     [Parameter(ValueFromRemainingArguments = $true)]
     $ScriptArgs
 )
+
+# Force immediate console output (disable buffering)
+$OutputEncoding = [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
 # ============================================================================
 # IMMEDIATE OUTPUT TEST - MUST APPEAR FIRST
@@ -112,6 +113,20 @@ Write-WrapperLog "  Sandbox Name: $sandboxName"
 Write-WrapperLog "  Security Level: $securityLevel"
 Write-WrapperLog "  Executable: $executablePath"
 Write-WrapperLog "  Process Lasso: $enableProcessLasso"
+
+# DEBUG: Check if environment variables are set
+Write-WrapperLog "DEBUG - Environment Variables:" "DEBUG"
+Write-WrapperLog "  SANDBOX_NAME = '$env:SANDBOX_NAME'" "DEBUG"
+Write-WrapperLog "  SANDBOXIE_PATH = '$env:SANDBOXIE_PATH'" "DEBUG"
+Write-WrapperLog "  SECURITY_LEVEL = '$env:SECURITY_LEVEL'" "DEBUG"
+Write-WrapperLog "  EXECUTABLE_PATH = '$env:EXECUTABLE_PATH'" "DEBUG"
+
+# If critical variables are missing, exit with error
+if ([string]::IsNullOrWhiteSpace($sandboxName) -or [string]::IsNullOrWhiteSpace($executablePath)) {
+    Write-WrapperLog "ERROR: Required environment variables not set!" "ERROR"
+    Write-WrapperLog "ERROR: AMP must configure these settings in the instance configuration" "ERROR"
+    exit 1
+}
 
 # ============================================================================
 # STEP 1: CREATE SANDBOXIE SANDBOX
