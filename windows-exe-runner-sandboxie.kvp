@@ -51,13 +51,13 @@ Meta.ImportableExtensions=[]
 # These settings control how AMP launches and manages your executable
 App.DisplayName=Windows EXE Runner (Sandboxie)
 App.RootDir=./windows-exe-runner/
-App.BaseDirectory=./windows-exe-runner/
+App.BaseDirectory=./
 App.SteamWorkshopDownloadLocation=
 # Sandboxie-Plus Start.exe wrapper
 App.ExecutableWin=C:\Program Files\PowerShell\7\pwsh.exe
 App.ExecutableLinux=
 # Working directory for the process
-App.WorkingDir=./windows-exe-runner/
+App.WorkingDir=./
 App.LinuxCommandLineArgs=
 App.WindowsCommandLineArgs=-ExecutionPolicy Bypass -File "..\..\Sandboxie_Scripts\SandboxieWrapper.ps1"
 App.CommandLineArgs=
