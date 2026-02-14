@@ -179,7 +179,10 @@ function Get-ContainerName {
     .OUTPUTS
         String - Container name matching [a-zA-Z0-9][a-zA-Z0-9_.-]+
     #>
-    $instanceId = (Get-Location).Path | Split-Path -Leaf
+    # Working dir is typically: ...\InstanceName\windows-exe-docker\app
+    # We need the instance name, which is 3 levels up from the working directory
+    $workingDir = (Get-Location).Path
+    $instanceId = $workingDir | Split-Path -Parent | Split-Path -Parent | Split-Path -Leaf
     # Sanitize: keep only alphanumeric, underscore, dot, hyphen
     $sanitized = $instanceId -replace '[^a-zA-Z0-9_.-]', ''
     if ([string]::IsNullOrWhiteSpace($sanitized)) {
@@ -669,7 +672,14 @@ try {
     # Container exited — get exit code (Req 9.2)
     $exitCodeOutput = & docker inspect --format '{{.State.ExitCode}}' $containerName 2>&1
     if ($LASTEXITCODE -eq 0) {
-        $wrapperExitCode = [int]$exitCodeOutput.Trim()
+        $rawExitCode = [long]$exitCodeOutput.Trim()
+        # Clamp to valid process exit code range (0-255 for cross-platform compat)
+        if ($rawExitCode -gt [int]::MaxValue -or $rawExitCode -lt [int]::MinValue) {
+            Write-WrapperLog "Container exit code $rawExitCode exceeds Int32 range, using 1" "WARNING"
+            $wrapperExitCode = 1
+        } else {
+            $wrapperExitCode = [int]$rawExitCode
+        }
         Write-WrapperLog "Container exit code: $wrapperExitCode"
     } else {
         Write-WrapperLog "Could not retrieve container exit code" "WARNING"
