@@ -302,6 +302,7 @@ function Build-DockerCreateCommand {
         "--cpus", $CpuLimit
         "--memory", $MemoryLimit
         "--network", $NetworkMode
+        "--workdir", "C:\app"
     )
 
     # Mount the executable directory into the container
@@ -313,11 +314,13 @@ function Build-DockerCreateCommand {
         $args += "-v", "$($mount.HostPath):$($mount.ContainerPath):$($mount.Mode)"
     }
 
-    # Set the command to run inside the container
+    # Set the image
     $args += $Image
 
     # Container entrypoint: the customer executable
-    $containerExePath = "C:\app\$ExePath"
+    # Clean up relative path prefixes (./ or .\)
+    $cleanExePath = $ExePath -replace '^\.[\\/]', ''
+    $containerExePath = "C:\app\$cleanExePath"
     $args += $containerExePath
 
     if (![string]::IsNullOrWhiteSpace($ExeArgs)) {
