@@ -1,7 +1,7 @@
 [
   {
     "DisplayName": "Application Executable Path",
-    "Category": "Windows EXE (Docker):application",
+    "Category": "Windows EXE Docker:application",
     "Subcategory": "Application Configuration:settings:1",
     "Description": "Path to the Windows .exe file to run inside the Docker container. Relative to the mounted application directory (e.g., ./Application.exe).",
     "Keywords": "executable,exe,path,application,program,file,binary",
@@ -16,7 +16,7 @@
   },
   {
     "DisplayName": "Command Line Arguments",
-    "Category": "Windows EXE (Docker):application",
+    "Category": "Windows EXE Docker:application",
     "Subcategory": "Application Configuration:settings:1",
     "Description": "Command line arguments to pass to the application inside the container.",
     "Keywords": "arguments,args,command,line,parameters,flags,options,cli",
@@ -31,7 +31,7 @@
   },
   {
     "DisplayName": "Ready Detection Pattern",
-    "Category": "Windows EXE (Docker):application",
+    "Category": "Windows EXE Docker:application",
     "Subcategory": "Application Configuration:settings:1",
     "Description": "Optional regex pattern to detect when the application inside the container is ready. If empty, the wrapper's own ready state is used.",
     "Keywords": "ready,pattern,regex,detection,startup",
@@ -46,7 +46,7 @@
   },
   {
     "DisplayName": "Docker Image",
-    "Category": "Windows EXE (Docker):application",
+    "Category": "Windows EXE Docker:application",
     "Subcategory": "Docker Settings:cog:2",
     "Description": "Docker Windows container image to use. Must be a Windows-based image compatible with process isolation.",
     "Keywords": "docker,image,container,base,windows",
@@ -61,7 +61,7 @@
   },
   {
     "DisplayName": "CPU Limit",
-    "Category": "Windows EXE (Docker):application",
+    "Category": "Windows EXE Docker:application",
     "Subcategory": "Docker Settings:cog:2",
     "Description": "Maximum number of CPU cores the container can use (e.g., 1.0 = one core, 0.5 = half a core, 2.0 = two cores).",
     "Keywords": "cpu,limit,cores,resources,throttle",
@@ -76,7 +76,7 @@
   },
   {
     "DisplayName": "Memory Limit",
-    "Category": "Windows EXE (Docker):application",
+    "Category": "Windows EXE Docker:application",
     "Subcategory": "Docker Settings:cog:2",
     "Description": "Maximum memory the container can use. Use Docker format: 512m, 1g, 2g, etc.",
     "Keywords": "memory,ram,limit,resources",
@@ -91,7 +91,7 @@
   },
   {
     "DisplayName": "Network Mode",
-    "Category": "Windows EXE (Docker):application",
+    "Category": "Windows EXE Docker:application",
     "Subcategory": "Docker Settings:cog:2",
     "Description": "Docker network mode for the container. 'nat' provides standard networking, 'none' disables networking entirely.",
     "Keywords": "network,mode,nat,none,isolation,firewall",
@@ -109,7 +109,7 @@
   },
   {
     "DisplayName": "Extra Volume Mounts",
-    "Category": "Windows EXE (Docker):application",
+    "Category": "Windows EXE Docker:application",
     "Subcategory": "Docker Settings:cog:2",
     "Description": "Additional volume mounts for the container. Semicolon-separated entries in format: host_path:container_path:mode (mode is 'ro' for read-only or 'rw' for read-write).",
     "Keywords": "volume,mount,path,directory,storage,bind",

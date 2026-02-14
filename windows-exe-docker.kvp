@@ -15,7 +15,7 @@
 # ----------------------------------------------------------------------------
 # Template Identity and Metadata
 # ----------------------------------------------------------------------------
-Meta.DisplayName=Windows EXE (Docker)
+Meta.DisplayName=Windows EXE Docker
 Meta.Description=A secure AMP template for managing Windows executable (.exe) applications inside Docker Windows containers with process isolation. Provides filesystem, network, CPU/RAM isolation for untrusted customer executables while maintaining AMP's standard Start/Stop/Restart/Abort interface.
 Meta.OS=Windows
 Meta.AarchSupport=Unknown
@@ -49,7 +49,7 @@ Meta.AppIsMultiIPAware=False
 # ----------------------------------------------------------------------------
 # Application Execution Configuration
 # ----------------------------------------------------------------------------
-App.DisplayName=Windows EXE (Docker)
+App.DisplayName=Windows EXE Docker
 App.RootDir=./windows-exe-docker/
 App.BaseDirectory=./windows-exe-docker/app/
 App.SteamWorkshopDownloadLocation=
