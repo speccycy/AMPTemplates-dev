@@ -1,7 +1,7 @@
 [
   {
     "DisplayName": "Application Executable Path",
-    "Category": "Windows EXE Runner:application",
+    "Category": "Windows EXE:application",
     "Subcategory": "Application Configuration:settings:1",
     "Description": "Full path to the Windows .exe file to run. Can be relative (e.g., ./Application.exe) or absolute (e.g., C:\\Apps\\Application.exe). The executable must exist at this location for the instance to start.",
     "Keywords": "executable,exe,path,application,program,file,binary",
@@ -15,9 +15,9 @@
   },
   {
     "DisplayName": "Working Directory",
-    "Category": "Windows EXE Runner:application",
+    "Category": "Windows EXE:application",
     "Subcategory": "Application Configuration:settings:1",
-    "Description": "The working directory where the application will run. This is where the application will look for configuration files and data. Can be relative (e.g., ./) or absolute (e.g., C:\\Apps\\). If not specified, uses the executable's parent directory.",
+    "Description": "The working directory where the application will run. This is where the application will look for configuration files and data. Can be relative (e.g., ./) or absolute. If not specified, uses the executable's parent directory.",
     "Keywords": "working,directory,folder,path,cwd,current,location",
     "FieldName": "WorkingDirectory",
     "InputType": "text",
@@ -29,9 +29,9 @@
   },
   {
     "DisplayName": "Command Line Arguments",
-    "Category": "Windows EXE Runner:application",
+    "Category": "Windows EXE:application",
     "Subcategory": "Application Configuration:settings:1",
-    "Description": "Additional command line arguments to pass to the application when it starts. These will be appended to the executable launch command. Supports both flag-style (--flag) and value-style (--option value) arguments. Special characters will be properly escaped.",
+    "Description": "Additional command line arguments to pass to the application when it starts. Supports both flag-style (--flag) and value-style (--option value) arguments.",
     "Keywords": "arguments,args,command,line,parameters,flags,options,cli",
     "FieldName": "CommandLineArgs",
     "InputType": "text",
@@ -43,9 +43,9 @@
   },
   {
     "DisplayName": "Ready Detection Pattern",
-    "Category": "Windows EXE Runner:application",
+    "Category": "Windows EXE:application",
     "Subcategory": "Advanced:cog:2",
-    "Description": "Regular expression pattern to detect when the application is ready and fully started. AMP will monitor console output for this pattern. Leave empty to mark the instance as ready immediately after launch. Use pipe (|) to match multiple patterns.",
+    "Description": "Regular expression pattern to detect when the application is ready. AMP monitors console output for this pattern. Leave empty to mark as ready immediately after launch. Use pipe (|) to match multiple patterns.",
     "Keywords": "ready,pattern,regex,detection,started,status,monitoring,console",
     "FieldName": "ReadyPattern",
     "InputType": "text",

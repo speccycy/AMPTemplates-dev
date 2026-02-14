@@ -44,6 +44,7 @@ Meta.BreakingReleaseNotes=
 # Unique identifier for this template - DO NOT change or reuse
 Meta.AppConfigId=a7f3e8d2-9c4b-4e1a-8f6d-2b5c9a1e7f3d
 Meta.ImportableExtensions=[]
+Meta.AppIsMultiIPAware=False
 
 # ----------------------------------------------------------------------------
 # Application Execution Configuration
@@ -58,13 +59,11 @@ App.ExecutableWin=C:\Program Files\PowerShell\7\pwsh.exe
 App.ExecutableLinux=
 App.WorkingDir=app
 App.LinuxCommandLineArgs=
-App.WindowsCommandLineArgs=-ExecutionPolicy Bypass -File "..\..\Sandboxie_Scripts\SandboxieWrapper.ps1" {{$PlatformArgs}}
-App.CommandLineArgs=
+App.WindowsCommandLineArgs=
+App.CommandLineArgs=-ExecutionPolicy Bypass -File "..\..\Sandboxie_Scripts\SandboxieWrapper.ps1" {{AdditionalArgs}}
 App.UseLinuxIOREDIR=False
 App.AppSettings={}
 App.EnvironmentVariables={"SANDBOX_NAME":"{{SandboxName}}","SANDBOXIE_PATH":"{{SandboxiePath}}","SECURITY_LEVEL":"{{SecurityLevel}}","AUTO_DELETE":"{{AutoDelete}}","BLOCK_NETWORK":"{{BlockNetwork}}","ALLOWED_PATHS":"{{AllowedPaths}}","ENABLE_PROCESS_LASSO":"{{EnableProcessLasso}}","PROCESS_LASSO_PATH":"{{ProcessLassoPath}}","MAX_CPU_PERCENT":"{{MaxCpuPercent}}","MAX_MEMORY_MB":"{{MaxMemoryMB}}","CPU_AFFINITY":"{{CpuAffinity}}","PROCESS_PRIORITY":"{{ProcessPriority}}","EXECUTABLE_PATH":"{{ExecutablePath}}","COMMAND_LINE_ARGS":"{{CommandLineArgs}}"}
-App.CommandLineParameterFormat=-{0}={1}
-App.CommandLineParameterDelimiter= 
 # Process termination method - OS_CLOSE sends WM_CLOSE signal for graceful shutdown
 App.ExitMethod=OS_CLOSE
 App.ExitMethodWindows=None
@@ -75,7 +74,7 @@ App.ExitFile=
 App.RestartDelaySeconds=0
 # Console configuration - read-only (no stdin support)
 App.HasWriteableConsole=False
-App.HasReadableConsole=False
+App.HasReadableConsole=True
 App.UDPLogger=False
 App.SupportsLiveSettingsChanges=False
 App.LiveSettingChangeCommandFormat=
@@ -119,8 +118,8 @@ App.SteamForceLoginPrompt=False
 App.RapidStartup=False
 App.SmartExcludeExemptions=[]
 App.SmartExcludeSupported=False
-App.DumpFullChildProcessTree=False
-App.MonitorChildProcess=False
+App.DumpFullChildProcessTree=True
+App.MonitorChildProcess=True
 App.MonitorChildProcessName=
 App.MonitorDirectChildOnly=False
 App.SupportsUniversalSleep=False
@@ -137,7 +136,7 @@ Console.FilterMatchRegex=\e\[(\d+;)*(\d+)?[ABCDHJKfmsu]|\e\[?[?\>\=\da-z]+
 Console.FilterMatchReplacement=
 Console.ThrowawayMessageRegex=
 # Ready detection pattern - configured by user (leave empty for immediate ready)
-Console.AppReadyRegex=^\[WRAPPER-DEBUG\] State: RUNNING - Monitoring process\.\.\.
+Console.AppReadyRegex=State: RUNNING - Monitoring process\.\.\.
 Console.UserJoinRegex=^$
 Console.UserLeaveRegex=^$
 Console.UserChatRegex=^$

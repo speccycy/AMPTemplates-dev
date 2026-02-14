@@ -1,5 +1,5 @@
 # ============================================================================
-# Windows EXE Runner - AMP Template Configuration
+# Windows EXE - AMP Template Configuration
 # ============================================================================
 # This template allows you to manage any Windows executable (.exe) through AMP.
 # No downloads or compilation required - just point to your existing .exe file.
@@ -9,13 +9,14 @@
 # - Real-time console output monitoring
 # - Configurable executable path and command line arguments
 # - Automatic ready state detection
+# - Docker container support for isolation
 # ============================================================================
 
 # ----------------------------------------------------------------------------
 # Template Identity and Metadata
 # ----------------------------------------------------------------------------
-Meta.DisplayName=Windows EXE Runner
-Meta.Description=A minimal AMP template for managing Windows executable (.exe) applications. Allows users to run any Windows executable through AMP's standard Start/Stop/Restart interface without requiring downloads or compilation.
+Meta.DisplayName=Windows EXE
+Meta.Description=An AMP template for managing Windows executable (.exe) applications. Run any Windows executable through AMP's standard Start/Stop/Restart interface with real-time console output. Supports both native and Docker container execution.
 Meta.OS=Windows
 Meta.AarchSupport=Unknown
 Meta.Arch=All
@@ -23,33 +24,34 @@ Meta.Author=speccycy
 Meta.URL=https://github.com/CubeCoders/AMPTemplates
 Meta.DisplayImageSource=
 Meta.EndpointURIFormat=
-Meta.ConfigManifest=windows-exe-runnerconfig.json
-Meta.MetaConfigManifest=windows-exe-runnermetaconfig.json
-Meta.ConfigRoot=windows-exe-runner.kvp
+Meta.ConfigManifest=windows-execonfig.json
+Meta.MetaConfigManifest=windows-exemetaconfig.json
+Meta.ConfigRoot=windows-exe.kvp
 Meta.MinAMPVersion=2.6.0.0
 Meta.SpecificDockerImage=
 Meta.DockerRequired=False
 Meta.DockerBaseReadOnly=False
-Meta.ContainerPolicy=NotSupported
-Meta.ContainerPolicyReason=Windows-only template for managing Windows executables
+Meta.ContainerPolicy=Supported
+Meta.ContainerPolicyReason=
 Meta.ExtraSetupStepsURI=
 Meta.Prerequisites=[]
 Meta.ExtraContainerPackages=[]
 Meta.ConfigReleaseState=NotSpecified
 Meta.NoCommercialUsage=False
 Meta.ConfigVersion=1
-Meta.ReleaseNotes=Initial release of Windows EXE Runner template
+Meta.ReleaseNotes=Initial release - supports native and Docker execution
 Meta.BreakingReleaseNotes=
 # Unique identifier for this template - DO NOT change or reuse
 Meta.AppConfigId=9290b659-f8d8-4c12-9bcd-aa9f40e9b345
 Meta.ImportableExtensions=[]
+Meta.AppIsMultiIPAware=False
 
 # ----------------------------------------------------------------------------
 # Application Execution Configuration
 # ----------------------------------------------------------------------------
 # These settings control how AMP launches and manages your executable
-App.DisplayName=Windows EXE Runner
-App.RootDir=./windows-exe-runner/
+App.DisplayName=Windows EXE
+App.RootDir=./windows-exe/
 # Working directory - configured by user (default: ./)
 App.BaseDirectory={{WorkingDirectory}}
 App.SteamWorkshopDownloadLocation=
@@ -82,8 +84,8 @@ App.LiveSettingChangeCommandFormat=
 App.ForceIPBinding=False
 App.SupportsIPv6=False
 App.ApplicationIPBinding=0.0.0.0
-# Port configuration - see windows-exe-runnerports.json
-App.Ports=@IncludeJson[windows-exe-runnerports.json]
+# Port configuration - see windows-exeports.json
+App.Ports=@IncludeJson[windows-exeports.json]
 App.AdminPortRef=0
 App.PrimaryApplicationPortRef=0
 App.UniversalSleepApplicationUDPPortRef=0
@@ -96,14 +98,16 @@ App.RemoteAdminPassword=
 App.AdminMethod=None
 App.IgnoreSTDOUTAfterRCON=False
 App.AdminLoginTransform=None
+App.StripANSIControlCodes=True
 App.LoginTransformPrefix=
 App.RCONConnectDelaySeconds=0
 App.RCONConnectRetrySeconds=0
 App.RCONHeartbeatMinutes=0
 App.RCONHeartbeatCommand=
 App.TelnetLoginFormat=
+App.TelnetNewLineType=Default
 # Update sources - empty (no downloads or compilation)
-App.UpdateSources=@IncludeJson[windows-exe-runnerupdates.json]
+App.UpdateSources=@IncludeJson[windows-exeupdates.json]
 App.PreStartStages=[]
 App.UserActions=[]
 # No automatic updates - user provides their own executable
