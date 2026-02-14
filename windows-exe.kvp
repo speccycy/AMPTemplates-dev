@@ -17,7 +17,7 @@
 # ----------------------------------------------------------------------------
 Meta.DisplayName=Windows EXE
 Meta.Description=An AMP template for managing Windows executable (.exe) applications. Run any Windows executable through AMP's standard Start/Stop/Restart interface with real-time console output. Supports both native and Docker container execution.
-Meta.OS=Windows
+Meta.OS=Windows, Linux
 Meta.AarchSupport=Unknown
 Meta.Arch=All
 Meta.Author=speccycy
