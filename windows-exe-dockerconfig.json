@@ -111,14 +111,14 @@
     "DisplayName": "Extra Volume Mounts",
     "Category": "Windows EXE Docker:application",
     "Subcategory": "Docker Settings:cog:2",
-    "Description": "Additional volume mounts for the container. Semicolon-separated entries in format: host_path:container_path:mode (mode is 'ro' for read-only or 'rw' for read-write).",
+    "Description": "Additional volume mounts for the container. One per line in format: host_path:container_path:mode (mode is 'ro' for read-only or 'rw' for read-write). Example: D:\\Data:C:\\ContainerData:rw",
     "Keywords": "volume,mount,path,directory,storage,bind",
     "FieldName": "ExtraMounts",
-    "InputType": "text",
+    "InputType": "Textarea",
     "ParamFieldName": "ExtraMounts",
     "IncludeInCommandLine": false,
     "DefaultValue": "",
-    "Placeholder": "C:\\Data:C:\\ContainerData:rw;C:\\Config:C:\\ContainerConfig:ro",
+    "Placeholder": "D:\\Data:C:\\ContainerData:rw\nD:\\Config:C:\\ContainerConfig:ro",
     "Required": false,
     "SkipIfEmpty": true
   }

@@ -210,7 +210,7 @@ function Parse-VolumeMounts {
         return $mounts
     }
 
-    $entries = $MountString.Split(';', [System.StringSplitOptions]::RemoveEmptyEntries)
+    $entries = $MountString.Split(@(';', "`n", "`r"), [System.StringSplitOptions]::RemoveEmptyEntries)
     foreach ($entry in $entries) {
         $entry = $entry.Trim()
         if ([string]::IsNullOrWhiteSpace($entry)) { continue }
