@@ -160,8 +160,10 @@ try {
             Write-WrapperLog "ERROR: Docker Engine is not accessible via named pipe or TCP." "ERROR"
             Write-WrapperLog "Fix: Run as Admin: net localgroup docker-users /add && net localgroup docker-users `"NT AUTHORITY\NETWORK SERVICE`" /add" "ERROR"
             Write-WrapperLog "Or add to daemon.json: `"hosts`": [`"npipe://`", `"tcp://127.0.0.1:2375`"]" "ERROR"
-        Write-WrapperLog "Docker info output: $($dockerInfo -join ' ')" "ERROR"
-        exit 1
+            Write-WrapperLog "Docker info output: $($dockerInfo -join ' ')" "ERROR"
+            exit 1
+        }
+        Write-WrapperLog "Docker Engine accessible via TCP fallback" "WARNING"
     }
     Write-WrapperLog "Docker Engine verified successfully"
     Write-WrapperLog "Docker info: $($dockerInfo | Select-String 'Server Version' | ForEach-Object { $_.ToString().Trim() })" "DEBUG"
