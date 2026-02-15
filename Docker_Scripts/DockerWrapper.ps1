@@ -152,7 +152,14 @@ Write-WrapperLog "=========================================="
 try {
     $dockerInfo = & docker info 2>&1
     if ($LASTEXITCODE -ne 0) {
-        Write-WrapperLog "ERROR: Docker Engine is not accessible. Ensure Docker is installed and running." "ERROR"
+        # Try TCP fallback if named pipe access is denied
+        Write-WrapperLog "Named pipe access failed, trying TCP fallback (127.0.0.1:2375)..." "WARNING"
+        $env:DOCKER_HOST = "tcp://127.0.0.1:2375"
+        $dockerInfo = & docker info 2>&1
+        if ($LASTEXITCODE -ne 0) {
+            Write-WrapperLog "ERROR: Docker Engine is not accessible via named pipe or TCP." "ERROR"
+            Write-WrapperLog "Fix: Run as Admin: net localgroup docker-users /add && net localgroup docker-users `"NT AUTHORITY\NETWORK SERVICE`" /add" "ERROR"
+            Write-WrapperLog "Or add to daemon.json: `"hosts`": [`"npipe://`", `"tcp://127.0.0.1:2375`"]" "ERROR"
         Write-WrapperLog "Docker info output: $($dockerInfo -join ' ')" "ERROR"
         exit 1
     }
