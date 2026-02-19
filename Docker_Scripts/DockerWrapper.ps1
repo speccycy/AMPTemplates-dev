@@ -113,6 +113,7 @@ $memoryLimit     = $env:MEMORY_LIMIT
 $networkMode     = $env:NETWORK_MODE
 $extraMounts     = $env:EXTRA_MOUNTS
 $readyPattern    = $env:READY_PATTERN
+$updateSSLCerts  = $env:UPDATE_SSL_CERTS
 
 Write-WrapperLog "Configuration:"
 Write-WrapperLog "  Docker Image:    $dockerImage"
@@ -123,6 +124,7 @@ Write-WrapperLog "  Memory Limit:    $memoryLimit"
 Write-WrapperLog "  Network Mode:    $networkMode"
 Write-WrapperLog "  Extra Mounts:    $extraMounts"
 Write-WrapperLog "  Ready Pattern:   $readyPattern"
+Write-WrapperLog "  Update SSL Certs: $updateSSLCerts"
 Write-WrapperLog "  Running as:      $([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)"
 Write-WrapperLog "  Working Dir:     $(Get-Location)"
 
@@ -271,6 +273,10 @@ function Build-DockerCreateCommand {
         Builds the full argument list for 'docker create' including resource limits,
         isolation mode, volume mounts, network mode, and the command to run inside
         the container. Never includes --privileged.
+        When UpdateSSLCerts is enabled, the container entrypoint is wrapped with
+        a cmd /c command that runs certutil to update root CA certificates before
+        launching the application. This fixes SSL certificate verification errors
+        (e.g., discord.com, api endpoints) in Windows Server Core containers.
     .PARAMETER ContainerName
         Name for the Docker container
     .PARAMETER Image
@@ -289,6 +295,8 @@ function Build-DockerCreateCommand {
         Command line arguments for the executable
     .PARAMETER ExtraMountString
         Additional volume mounts (semicolon-separated)
+    .PARAMETER UpdateSSLCerts
+        When "true", injects certutil root CA update before running the application
     .OUTPUTS
         Array of strings - arguments for docker create
     #>
@@ -301,7 +309,8 @@ function Build-DockerCreateCommand {
         [string]$ExeHostDir,
         [string]$ExePath,
         [string]$ExeArgs,
-        [string]$ExtraMountString
+        [string]$ExtraMountString,
+        [string]$UpdateSSLCerts = "false"
     )
 
     $args = @(
@@ -330,12 +339,32 @@ function Build-DockerCreateCommand {
     # Clean up relative path prefixes (./ or .\)
     $cleanExePath = $ExePath -replace '^\.[\\/]', ''
     $containerExePath = "C:\app\$cleanExePath"
-    $args += $containerExePath
 
-    if (![string]::IsNullOrWhiteSpace($ExeArgs)) {
-        # Split args and add individually
-        $ExeArgs.Split(' ', [System.StringSplitOptions]::RemoveEmptyEntries) | ForEach-Object {
-            $args += $_
+    $sslEnabled = ($UpdateSSLCerts -eq "true" -or $UpdateSSLCerts -eq "True" -or $UpdateSSLCerts -eq "1")
+
+    if ($sslEnabled) {
+        # Wrap with cmd /c to run certutil CA update before the application.
+        # certutil -generateSSTFromWU downloads root certs from Windows Update,
+        # then certutil -addstore imports them into the Trusted Root store.
+        # This runs once at container start and adds ~3-5 seconds to startup.
+        $certCmd = "certutil -generateSSTFromWU C:\roots.sst >nul 2>&1 & " +
+                   "certutil -addstore -f Root C:\roots.sst >nul 2>&1 & " +
+                   "del C:\roots.sst >nul 2>&1"
+
+        $exeCmd = "`"$containerExePath`""
+        if (![string]::IsNullOrWhiteSpace($ExeArgs)) {
+            $exeCmd += " $ExeArgs"
+        }
+
+        $args += "cmd", "/c", "$certCmd & $exeCmd"
+    } else {
+        $args += $containerExePath
+
+        if (![string]::IsNullOrWhiteSpace($ExeArgs)) {
+            # Split args and add individually
+            $ExeArgs.Split(' ', [System.StringSplitOptions]::RemoveEmptyEntries) | ForEach-Object {
+                $args += $_
+            }
         }
     }
 
@@ -557,7 +586,8 @@ $createArgs = Build-DockerCreateCommand `
     -ExeHostDir $exeHostDir `
     -ExePath $executablePath `
     -ExeArgs $commandLineArgs `
-    -ExtraMountString $extraMounts
+    -ExtraMountString $extraMounts `
+    -UpdateSSLCerts $updateSSLCerts
 
 Write-WrapperLog "Docker create command: docker $($createArgs -join ' ')" "DEBUG"
 

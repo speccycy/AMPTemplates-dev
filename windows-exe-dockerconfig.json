@@ -121,5 +121,23 @@
     "Placeholder": "D:\\Data:C:\\ContainerData:rw\nD:\\Config:C:\\ContainerConfig:ro",
     "Required": false,
     "SkipIfEmpty": true
+  },
+  {
+    "DisplayName": "Update SSL Root Certificates",
+    "Category": "Windows EXE Docker:application",
+    "Subcategory": "Docker Settings:cog:2",
+    "Description": "Automatically update Windows root CA certificates from Windows Update when the container starts. Enable this if your application connects to HTTPS endpoints (e.g., Discord, APIs) and you see SSL certificate verification errors. Adds ~3-5 seconds to container startup.",
+    "Keywords": "ssl,certificate,https,tls,cert,root,ca,verify,discord,api",
+    "FieldName": "UpdateSSLCerts",
+    "InputType": "enum",
+    "ParamFieldName": "UpdateSSLCerts",
+    "IncludeInCommandLine": false,
+    "DefaultValue": "false",
+    "EnumValues": {
+      "true": "Enabled - Update root CA certificates on each start (recommended for HTTPS apps)",
+      "false": "Disabled - Skip certificate update (faster startup)"
+    },
+    "Required": true,
+    "SkipIfEmpty": false
   }
 ]
