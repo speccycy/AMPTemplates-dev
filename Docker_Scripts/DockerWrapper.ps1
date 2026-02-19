@@ -351,7 +351,7 @@ function Build-DockerCreateCommand {
                    "certutil -addstore -f Root C:\roots.sst >nul 2>&1 & " +
                    "del C:\roots.sst >nul 2>&1"
 
-        $exeCmd = "`"$containerExePath`""
+        $exeCmd = "$containerExePath"
         if (![string]::IsNullOrWhiteSpace($ExeArgs)) {
             $exeCmd += " $ExeArgs"
         }
