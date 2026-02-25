@@ -1,0 +1,99 @@
+[
+  {
+    "DisplayName": "Admin Password",
+    "Category": "MongoDB Native:database",
+    "Subcategory": "Server Configuration:settings:1",
+    "Description": "Password for the admin user. If left empty, a random password will be generated.",
+    "Keywords": "admin,password,authentication,security",
+    "FieldName": "AdminPassword",
+    "InputType": "password",
+    "ParamFieldName": "AdminPassword",
+    "DefaultValue": "",
+    "Placeholder": "Leave empty for auto-generated password",
+    "Required": false,
+    "SkipIfEmpty": true
+  },
+  {
+    "DisplayName": "MongoDB Release Stream",
+    "Category": "MongoDB Native:database",
+    "Subcategory": "Server Configuration:settings:1",
+    "Description": "MongoDB release stream to use. 8.0 is the current stable release.",
+    "Keywords": "mongodb,release,stream,version",
+    "FieldName": "ServerVersion",
+    "InputType": "enum",
+    "ParamFieldName": "MongoDBRelease",
+    "DefaultValue": "8.0",
+    "EnumValues": {
+      "8.0": "8.0 (Current Stable)",
+      "7.0": "7.0 (Previous)",
+      "6.0": "6.0 (Legacy)"
+    },
+    "Required": true
+  },
+  {
+    "DisplayName": "MongoDB Version",
+    "Category": "MongoDB Native:database",
+    "Subcategory": "Server Configuration:settings:1",
+    "Description": "Specific MongoDB version (e.g., 8.0.9). Leave empty for latest in selected release stream.",
+    "Keywords": "version,specific,custom",
+    "FieldName": "CustomServerVersion",
+    "InputType": "text",
+    "ParamFieldName": "MongoDBVersion",
+    "DefaultValue": "",
+    "Placeholder": "8.0.9 (leave empty for latest)",
+    "Required": false,
+    "SkipIfEmpty": true
+  },
+  {
+    "DisplayName": "Additional Server Options",
+    "Category": "MongoDB Native:database",
+    "Subcategory": "Server Configuration:settings:1",
+    "Description": "Additional command-line options for mongod server. Use with caution.",
+    "Keywords": "server,options,command-line,arguments",
+    "FieldName": "CustomServerOptions",
+    "InputType": "textarea",
+    "ParamFieldName": "CustomServerOptions",
+    "DefaultValue": "",
+    "Placeholder": "--wiredTigerCacheSizeGB 1 --oplogSize 128",
+    "Required": false,
+    "SkipIfEmpty": true
+  },
+  {
+    "DisplayName": "Additional Client Options",
+    "Category": "MongoDB Native:database",
+    "Subcategory": "Client Configuration:settings:2",
+    "Description": "Additional command-line options for MongoDB client (mongosh).",
+    "Keywords": "client,options,arguments",
+    "FieldName": "CustomClientOptions",
+    "InputType": "textarea",
+    "ParamFieldName": "CustomClientOptions",
+    "DefaultValue": "",
+    "Placeholder": "--quiet --nodb",
+    "Required": false,
+    "SkipIfEmpty": true
+  },
+  {
+    "DisplayName": "Data Directory",
+    "Category": "MongoDB Native:database",
+    "Subcategory": "Storage Configuration:settings:3",
+    "Description": "Path to MongoDB data directory (relative to instance directory).",
+    "Keywords": "data,storage,directory,path",
+    "FieldName": "DataDirectory",
+    "InputType": "text",
+    "ParamFieldName": "DataDirectory",
+    "DefaultValue": "data",
+    "Required": true
+  },
+  {
+    "DisplayName": "Log Directory",
+    "Category": "MongoDB Native:database",
+    "Subcategory": "Logging:settings:4",
+    "Description": "Path to MongoDB log directory (relative to instance directory).",
+    "Keywords": "logs,logging,directory",
+    "FieldName": "LogDirectory",
+    "InputType": "text",
+    "ParamFieldName": "LogDirectory",
+    "DefaultValue": "log/mongodb",
+    "Required": true
+  }
+]

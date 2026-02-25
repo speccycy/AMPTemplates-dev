@@ -1,0 +1,27 @@
+[
+  {
+    "UpdateStageName": "Start MongoDB Server",
+    "UpdateSourcePlatform": "Linux",
+    "UpdateSource": "Executable",
+    "UpdateSourceData": "/bin/bash",
+    "UpdateSourceArgs": "-c \"cd '{{$FullBaseDir}}' && export PATH='{{$FullBaseDir}}mongodb/bin:{{$FullBaseDir}}mongosh/bin:$PATH' && mongosh --host 127.0.0.1 --port {{$ServerPort}} --quiet --eval 'db.runCommand({ ping: 1 })' >/dev/null 2>&1 && exit 0 || mongodb/bin/mongod {{CustomServerOptions}} --dbpath '{{$FullBaseDir}}{{DataDirectory}}' --port {{$ServerPort}} --bind_ip 0.0.0.0 --logpath '{{$FullBaseDir}}{{LogDirectory}}/mongod.log' --logappend --fork\"",
+    "RunInBackground": true,
+    "SkipOnFailure": false
+  },
+  {
+    "UpdateStageName": "Wait for MongoDB to start",
+    "UpdateSourcePlatform": "Linux",
+    "UpdateSource": "Executable",
+    "UpdateSourceData": "/bin/bash",
+    "UpdateSourceArgs": "-c \"cd '{{$FullBaseDir}}' && export PATH='{{$FullBaseDir}}mongosh/bin:$PATH' && timeout=60 && while ((timeout--)); do mongosh --host 127.0.0.1 --port {{$ServerPort}} --quiet --eval 'db.runCommand({ ping: 1 })' >/dev/null 2>&1 && break || sleep 1; done && if ((timeout < 0)); then echo 'MongoDB failed to start'; exit 1; fi\"",
+    "SkipOnFailure": false
+  },
+  {
+    "UpdateStageName": "Setup admin user",
+    "UpdateSourcePlatform": "Linux",
+    "UpdateSource": "Executable",
+    "UpdateSourceData": "/bin/bash",
+    "UpdateSourceArgs": "-c \"cd '{{$FullBaseDir}}' && export PATH='{{$FullBaseDir}}mongosh/bin:$PATH' && AdminPassword='{{AdminPassword}}' && if [ -z \"$AdminPassword\" ]; then AdminPassword=$(openssl rand -base64 12); fi && mongosh --host 127.0.0.1 --port {{$ServerPort}} admin --quiet --eval 'try { const adminDb = db.getSiblingDB(\"admin\"); if (!adminDb.getUser(\"admin\")) { adminDb.createUser({ user: \"admin\", pwd: \"'$AdminPassword'\", roles: [\"root\"] }); print(\"Admin user created with password: ' + (\"{{AdminPassword}}\" ? \"[user-specified]\" : \"'$AdminPassword'\") + '\"); } } catch(e) { if (e.codeName === \"Unauthorized\" || e.code === 13) { } else { throw e; } }'\"",
+    "SkipOnFailure": false
+  }
+]
