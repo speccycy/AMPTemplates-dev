@@ -11,7 +11,7 @@
 # ----------------------------------------------------------------------------
 # Template Identity and Metadata
 # ----------------------------------------------------------------------------
-Meta.DisplayName=MongoDB Native (User-space)
+Meta.DisplayName=MongoDB (Native)
 Meta.Description=MongoDB Service Instance running in user-space without Docker. Downloads Debian-compatible MongoDB binary and runs as AMP user.
 Meta.OS=Linux
 Meta.AarchSupport=Native
@@ -45,7 +45,7 @@ Meta.AppIsMultiIPAware=False
 # ----------------------------------------------------------------------------
 # Application Execution Configuration
 # ----------------------------------------------------------------------------
-App.DisplayName=MongoDB Native
+App.DisplayName=MongoDB (Native)
 App.RootDir=./mongodb-native/
 App.BaseDirectory=./mongodb-native/
 App.SteamWorkshopDownloadLocation=
